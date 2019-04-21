@@ -16,7 +16,8 @@ def connect():
 
     try:
         con = sqlite3.connect(db_file, timeout=10)
-        return con
+        cur = con.cursor()
+        return con, cur
     except sqlite3.Error as e:
         print('Error connecting to sqlite db located at {} \n{}'.format(db_file, e))
 
@@ -61,3 +62,33 @@ def get_schema(con, table_name, print_out=False):
         print('\n{} Schema:\n{}', table_name, table_schema)
 
     return table_schema
+
+
+def get_messages(cur, limit=None):
+
+    """
+        Retrieves text messages
+    """
+
+    msg_query = 'SELECT \
+                    cmj.chat_id AS chat_id, cmj.message_id, chj.handle_id AS handle_id, \
+                    message_date AS date,m.text AS text, m.is_from_me \
+                FROM chat_message_join AS cmj \
+                    INNER JOIN message AS m \
+                        ON cmj.message_id = m.ROWID \
+                    INNER JOIN chat_handle_join AS chj \
+                         ON cmj.chat_id = chj.chat_id \
+                    ORDER BY chj.handle_id DESC'
+
+    if limit:
+        msg_query += ' LIMIT ?'
+        cur.execute(msg_query, (limit, ))
+    else:
+        cur.execute(msg_query)
+
+    column_vals = [description[0] for description in cur.description]
+    print(column_vals, '\n')
+    for row in cur.fetchall():
+        print(row)
+
+    return
