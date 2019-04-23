@@ -1,6 +1,17 @@
 import sqlite3
 from os import getlogin
 
+
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+
+dictify = dictify = lambda cursor, row: {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
+
+
 def connect():
 
     """
@@ -16,6 +27,7 @@ def connect():
 
     try:
         con = sqlite3.connect(db_file, timeout=10)
+        con.row_factory = dict_factory
         cur = con.cursor()
         return con, cur
     except sqlite3.Error as e:
@@ -30,7 +42,7 @@ def close(con):
     return con.close()
 
 
-def count_rows(con, table_name, print_out=False):
+def count_rows(cur, table_name, print_out=False):
 
     """
         Counts number of rows in a given table
@@ -44,7 +56,7 @@ def count_rows(con, table_name, print_out=False):
     if table_name not in ['chat', 'message', 'handle', 'chat_handle_join', 'chat_message_join']:
         raise Exception('Invalid table name: {}'.format(table_name))
 
-    count = con.execute('SELECT COUNT(*) FROM {}'.format(table_name)).fetchone()
+    count = cur.execute('SELECT COUNT(*) AS {}_count FROM {}'.format(table_name, table_name)).fetchone()
     if print_out:
         print('\nTotal rows in {} table: {}', table_name, count)
 
