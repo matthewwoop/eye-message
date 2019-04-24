@@ -16,14 +16,19 @@ ORDER BY handle_id;
 
 
 -- combined query
--- selects all messages w/ their corresponding chat and handle ids
+-- selects all messages w/ their corresponding chat and handle info
 -- removing duplicates and empty (attachment) messages
-SELECT m.ROWID AS message_id, cmj.chat_id AS chat_id, m.handle_id AS handle_id, text, is_from_me, datetime((date/1000000000) + strftime('%s', '2001-01-01 00:00:00'), 'unixepoch', 'localtime') AS date
+SELECT m.ROWID AS message_id, cmj.chat_id AS chat_id, m.handle_id AS handle_id,
+text, is_from_me, style, group_id,
+datetime((date/1000000000) + strftime('%s', '2001-01-01 00:00:00'), 'unixepoch', 'localtime') AS date,
+h.id AS full_number, m.service AS service, person_centric_id AS person_id
 FROM message AS m
 INNER JOIN chat_message_join AS cmj
 ON cmj.message_id = m.ROWID
-LEFT JOIN chat_handle_join AS chj
-ON cmj.chat_id = chj.handle_id
+INNER JOIN chat AS c
+ON cmj.chat_id = c.ROWID
+LEFT JOIN handle AS h
+ON m.handle_id = h.ROWID
 WHERE text IS NOT NULL
 GROUP BY message_id;
 
