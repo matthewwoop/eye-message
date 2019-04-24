@@ -9,7 +9,7 @@ def dict_factory(cursor, row):
     return d
 
 
-dictify = dictify = lambda cursor, row: {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
+dictify = lambda cursor, row: {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
 
 
 def connect():
