@@ -22,6 +22,9 @@ class MessagesDB(object):
                 print('Successfully connected -- booyah')
             except Exception as e:
                 print('Error: Connection Failed {}'.format(e))
+                MessagesDB._instance = None
+        else:
+            print('MessagesDB obj exists', cls._instance)
 
         return cls._instance
 
