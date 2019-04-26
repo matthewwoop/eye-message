@@ -10,3 +10,6 @@ __pycache__
 
 # misc
 ref-images
+
+# exported data
+data
