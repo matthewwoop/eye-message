@@ -1,6 +1,7 @@
 # cached py files
 *.pyc
 __pycache__
+.coverage
 
 # Jupyter Notebook
 .ipynb_checkpoints
