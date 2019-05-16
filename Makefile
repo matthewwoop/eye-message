@@ -5,9 +5,12 @@ env:
 	which python3
 	python3 --version
 	which pip
+	which pytest
 
 install:
-	pip install --upgrade pip
 	pip install -r requirements.txt
 
-all: install
+test:
+	PYTHONPATH=. && pytest -vv --cov=eyemessage tests/*.py
+
+all: install env  test

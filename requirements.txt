@@ -6,4 +6,5 @@ pandas
 pylint
 pytest
 pytest-cov
+pytest-mypy
 mypy

@@ -1,3 +1,6 @@
+def version():
+	return '1.0'
+
 messages_query = "SELECT \
                  m.ROWID AS message_id, cmj.chat_id AS chat_id, m.handle_id AS handle_id, \
                  h.id AS phone_number, text, is_from_me, \
