@@ -8,8 +8,8 @@ __pycache__
 # pyCharm
 .idea
 
-# misc
-ref-images
+# misc files
+.misc
 
 # exported data
 data

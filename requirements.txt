@@ -1,0 +1,9 @@
+scikit-learn
+nltk
+gensim
+jupyter
+pandas
+pylint
+pytest
+pytest-cov
+mypy
