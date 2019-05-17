@@ -1,0 +1,6 @@
+message_id,chat_id,handle_id,phone_number,text,is_from_me,chat_style,service,group_id,persion_id,date
+2,2,2,+15163184263,not even wifi,0,45,iMessage,     ,34f32f9c-e814-4769-95d8-28724dd231c5,2016-04-15 21:54:26
+3,2,2,+15163184263,got it,0,45,iMessage,     ,34f32f9c-e814-4769-95d8-28724dd231c5,2016-04-15 21:54:41
+4,2,2,+15163184263,had to do a npm start --reset-cache,0,45,iMessage,     ,34f32f9c-e814-4769-95d8-28724dd231c5,2016-04-15 21:54:49
+6,2,2,+15163184263,interesting,1,45,iMessage,     ,34f32f9c-e814-4769-95d8-28724dd231c5,2016-04-15 22:20:53
+7,2,2,+15163184263,wonder why that would cause a problem now,1,45,iMessage,     ,34f32f9c-e814-4769-95d8-28724dd231c5,2016-04-15 22:21:03

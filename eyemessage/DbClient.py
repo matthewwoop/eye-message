@@ -5,7 +5,7 @@ import sqlite3
 # logging config
 logging.basicConfig()
 log = logging.getLogger("eyemessage")
-log.setLevel(logging.INFO)
+log.setLevel(logging.WARNING)
 
 
 class DbClient(object):
@@ -30,9 +30,9 @@ class DbClient(object):
 
         try:
             connection = sqlite3.connect(fp, timeout=timeout)
-            logging.info('Connected to db')
+            log.info('Connected to db')
         except sqlite3.Error as e:
-            logging.error('Error connecting to sqlite db: {}'.format(e))
+            log.error('Error connecting to sqlite db: {}'.format(e))
             raise e
 
         return connection
@@ -41,13 +41,14 @@ class DbClient(object):
         """ executes query and returns executed result NOTE: read only """
 
         try:
-            log.info('Executing query: {}'.format(query))
-            self.cursor.execute(query)
+            log.info('Executing query')
+            result = self.cursor.execute(query)
         except sqlite3.Exception as e:
             logging.error('Error executing query {}:\n{}'.format(query, e))
             raise e
 
-        return self.cursor.fetchall()
+        for row in result:
+            yield row    
 
     def close_connection(self):
         """ Closes db connection """
