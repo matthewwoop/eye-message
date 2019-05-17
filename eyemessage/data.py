@@ -50,6 +50,7 @@ def csv_messages(messages, outfile, fieldnames):
 if __name__ == "__main__":
     client = DbClient(utils.db_filepath(), utils.dict_row_factory)
     messages = pull_messages(client, DEFAULT_QUERIES['test_messages'])
-    outfile = "./test_msg4.csv"
+    outfile = "./data/test_msg4.csv"
     csv_messages(messages, outfile, FIELDNAMES)
     log.info('Wrote messages to csv')
+    client.close_connection()
