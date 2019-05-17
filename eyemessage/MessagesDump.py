@@ -1,7 +1,7 @@
 import os
 import csv
 from MessagesDB import MessagesDB
-from data_helpers import messages_query
+from utils import messages_query
 
 
 class MessagesPull:
