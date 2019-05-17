@@ -47,6 +47,8 @@ class DbClient(object):
             logging.error('Error executing query {}:\n{}'.format(query, e))
             raise e
 
+        return self.cursor.fetchall()
+
     def close_connection(self):
         """ Closes db connection """
 

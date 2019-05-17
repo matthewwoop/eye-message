@@ -13,4 +13,4 @@ install:
 test:
 	PYTHONPATH=. && pytest -vv --cov=eyemessage tests/*.py
 
-all: install env  test
+all: install env test
