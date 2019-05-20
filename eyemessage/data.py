@@ -11,7 +11,7 @@ log = logging.getLogger("eyemessage")
 log.setLevel(logging.INFO)
 
 
-messages_query = """SELECT \
+all_messages_query = """SELECT \
     m.ROWID AS message_id, cmj.chat_id AS chat_id, m.handle_id AS handle_id, \
     h.id AS phone_number, text, is_from_me, \
     style AS chat_style, m.service AS service," \
@@ -26,15 +26,11 @@ GROUP BY message_id
 """
 
 DEFAULT_QUERIES = {
-    'messages': messages_query,
-    'test_messages': messages_query + ' LIMIT 5'
+    'all_messages': all_messages_query,
+    'sample_all_messages': all_messages_query + ' LIMIT 5'
 }
 
 FIELDNAMES = ['message_id', 'chat_id', 'handle_id', 'phone_number', 'text', 'is_from_me', 'chat_style', 'service', 'group_id', 'person_id', 'date']
-
-
-def pull_messages(db_client, msg_query):
-    return db_client.query(msg_query)
 
 
 def csv_messages(messages, outfile, fieldnames):
@@ -47,10 +43,17 @@ def csv_messages(messages, outfile, fieldnames):
         for msg in messages:
             writer.writerow(msg)
 
+
 if __name__ == "__main__":
+    from datetime import date
+    outfile = "./data/Message_Backup_{}.csv".format(str(date.today()))
+    query_key = "all_messages"
+
+    log.info("Running {} query".format(query_key))
     client = DbClient(utils.db_filepath(), utils.dict_row_factory)
-    messages = pull_messages(client, DEFAULT_QUERIES['test_messages'])
-    outfile = "./data/test_msg4.csv"
+    messages = client.query(DEFAULT_QUERIES[query_key])
+
+    log.info("Writing {} result to {}".format(query_key, outfile))
     csv_messages(messages, outfile, FIELDNAMES)
-    log.info('Wrote messages to csv')
+    log.info('Successful back up, closing connection')
     client.close_connection()
